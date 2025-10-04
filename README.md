@@ -1,5 +1,5 @@
 # AutoXpense
-Team Name: Stackhackers
+Team Name: StackHackers
 
 
 Team members: Mohmmad Hussain Shaikh, Prashant Mahadev Goundadkar, Abhishek A Pillai, Yashsai Ramakant Dessai
