@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png" type="image/png">
+    <title>ExpenseTracker - Create Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="text-center mb-4">
+                    <i class="bi bi-receipt-cutoff text-primary" style="font-size: 3rem;"></i>
+                    <h2 class="text-primary fw-bold">ExpenseTracker</h2>
+                    <p class="text-muted">Create your company account to get started</p>
+                </div>
+                
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-4">
+                        <h3 class="card-title text-center mb-4 fw-bold">Company Registration</h3>
+                        
+                        <div id="alert-container"></div>
+                        
+                        <form id="signupForm" novalidate>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="companyName" class="form-label fw-semibold">Company Name</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-building text-muted"></i>
+                                        </span>
+                                        <input type="text" class="form-control border-start-0 ps-0" id="companyName" required>
+                                        <div class="invalid-feedback">
+                                            Company name is required.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="country" class="form-label fw-semibold">Country</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-globe text-muted"></i>
+                                        </span>
+                                        <select class="form-select border-start-0 ps-0" id="country" required>
+                                            <option value="">Loading countries...</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Please select a country.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="adminName" class="form-label fw-semibold">Admin Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-person text-muted"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0 ps-0" id="adminName" required>
+                                    <div class="invalid-feedback">
+                                        Admin name is required.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label fw-semibold">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-envelope text-muted"></i>
+                                    </span>
+                                    <input type="email" class="form-control border-start-0 ps-0" id="email" required>
+                                    <div class="invalid-feedback">
+                                        Please provide a valid email address.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="password" class="form-label fw-semibold">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-lock text-muted"></i>
+                                    </span>
+                                    <input type="password" class="form-control border-start-0 ps-0" id="password" required minlength="6">
+                                    <div class="invalid-feedback">
+                                        Password must be at least 6 characters long.
+                                    </div>
+                                </div>
+                                <div class="form-text">
+                                    <small class="text-muted">Password must be at least 6 characters long.</small>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="terms" required>
+                                    <label class="form-check-label" for="terms">
+                                        I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                                    </label>
+                                    <div class="invalid-feedback">
+                                        You must agree to the terms and conditions.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold" id="signupBtn">
+                                <span class="btn-text">Create Account</span>
+                                <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                            </button>
+                        </form>
+                        
+                        <hr class="my-4">
+                        
+                        <div class="text-center">
+                            <p class="text-muted mb-0">Already have an account?</p>
+                            <a href="index.html" class="btn btn-outline-primary mt-2 fw-semibold">Sign In</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="./config.js"></script>
+    <script type="module" src="./auth.js"></script>
+    <script type="module" src="./api.js"></script>
+    <script type="module">
+        // Initialize signup functionality
+        import { initializeSignup } from './auth.js';
+        import { loadCountries } from './api.js';
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCountries();
+            initializeSignup();
+        });
+    </script>
+</body>
+</html>
