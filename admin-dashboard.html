@@ -1,261 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Expense Management</title>
-  <link rel="icon" href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png" type="image/png">
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body { background-color: #f4f6f9; }
-    .nav-link.active { font-weight: bold; color: #fff !important; }
-    .section { display: none; }
-    .section.active { display: block; }
-    .card-header { font-weight: 600; }
-    @media (max-width: 768px) {
-      .table-responsive { font-size: 0.9rem; }
-    }
-    .btn-logout { background-color: #dc3545; color: #fff; }
-    .btn-logout:hover { background-color: #c82333; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Expense Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
-<body>
-
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Admin Dashboard</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link active" href="#" onclick="showSection('users')">Users</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('rules')">Approval Rules</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('expenses')">All Expenses</a></li>
-      </ul>
-      <ul class="navbar-nav">
-        <li class="nav-item"><button class="btn btn-logout" onclick="logout()">Logout</button></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<div class="container-fluid py-4">
-
-  <!-- Users Section -->
-  <div id="usersSection" class="section active">
-    <div class="row g-3">
-      <div class="col-lg-4 col-md-5">
-        <div class="card shadow-sm">
-          <div class="card-header bg-primary text-white">Add/Edit User</div>
-          <div class="card-body">
-            <form id="userForm">
-              <input type="hidden" id="userId">
-              <div class="mb-3">
-                <label for="userName" class="form-label">Name</label>
-                <input type="text" id="userName" class="form-control" required>
-              </div>
-              <div class="mb-3">
-                <label for="userEmail" class="form-label">Email</label>
-                <input type="email" id="userEmail" class="form-control" required>
-              </div>
-              <div class="mb-3">
-                <label for="userRole" class="form-label">Role</label>
-                <select id="userRole" class="form-select" required>
-                  <option value="">Select Role</option>
-                  <option value="employee">Employee</option>
-                  <option value="manager">Manager</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label for="userManager" class="form-label">Assign Manager</label>
-                <select id="userManager" class="form-select">
-                  <option value="">Select Manager</option>
-                </select>
-              </div>
-              <button type="submit" class="btn btn-primary w-100 mb-2">Save User</button>
-              <button type="button" class="btn btn-secondary w-100" onclick="clearUserForm()">Clear</button>
-            </form>
-          </div>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Admin Dashboard</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#" data-section="users">Users</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-section="rules">Approval Rules</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-section="expenses">All Expenses</a></li>
+                </ul>
+                <ul class="navbar-nav"><li class="nav-item"><a id="logoutButton" class="nav-link" href="#">Logout</a></li></ul>
+            </div>
         </div>
-      </div>
-      <div class="col-lg-8 col-md-7">
-        <div class="card shadow-sm">
-          <div class="card-header bg-secondary text-white">Users List</div>
-          <div class="card-body table-responsive">
-            <table class="table table-hover table-bordered align-middle">
-              <thead class="table-light">
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Manager</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="usersTable">
-                <tr><td colspan="5" class="text-center">Loading...</td></tr>
-              </tbody>
-            </table>
-          </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <!-- Users Section -->
+        <div id="usersSection" class="section">
+            <div class="row g-3">
+                <div class="col-lg-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">Add/Edit User</div>
+                        <div class="card-body">
+                            <form id="userForm">
+                                <input type="hidden" id="userId">
+                                <div class="mb-3"><label for="userName" class="form-label">Name</label><input type="text" id="userName" class="form-control" required></div>
+                                <div class="mb-3"><label for="userEmail" class="form-label">Email</label><input type="email" id="userEmail" class="form-control" required></div>
+                                <!-- Added Password Field -->
+                                <div class="mb-3">
+                                    <label for="userPassword" class="form-label">Password</label>
+                                    <input type="password" id="userPassword" class="form-control" placeholder="Set new password (optional)">
+                                    <small class="form-text text-muted">Only required when creating a new user or changing a password.</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="userRole" class="form-label">Role</label>
+                                    <select id="userRole" class="form-select" required>
+                                        <option value="employee">Employee</option><option value="manager">Manager</option><option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3"><label for="userManager" class="form-label">Manager</label><select id="userManager" class="form-select"><option value="">None</option></select></div>
+                                <button type="submit" class="btn btn-primary w-100">Save User</button>
+                                <button type="button" id="clearUserForm" class="btn btn-secondary w-100 mt-2">Clear</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-secondary text-white">Users List</div>
+                        <div class="card-body table-responsive"><table class="table table-hover"><thead class="table-light"><tr><th>Name</th><th>Email</th><th>Role</th><th>Manager</th><th>Actions</th></tr></thead><tbody id="usersTable"></tbody></table></div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        <!-- Other sections will be dynamically controlled by JS -->
     </div>
-  </div>
 
-  <!-- Approval Rules Section -->
-  <div id="rulesSection" class="section">
-    <div class="row g-3">
-      <div class="col-lg-4 col-md-5">
-        <div class="card shadow-sm">
-          <div class="card-header bg-primary text-white">Add/Edit Approval Rule</div>
-          <div class="card-body">
-            <form id="ruleForm">
-              <input type="hidden" id="ruleId">
-              <div class="mb-3">
-                <label for="ruleName" class="form-label">Rule Name</label>
-                <input type="text" id="ruleName" class="form-control" required>
-              </div>
-              <div class="mb-3">
-                <label for="ruleType" class="form-label">Rule Type</label>
-                <select id="ruleType" class="form-select" required>
-                  <option value="">Select Type</option>
-                  <option value="sequential">Sequential</option>
-                  <option value="percentage">Percentage Based</option>
-                  <option value="specific">Specific Approver</option>
-                  <option value="hybrid">Hybrid</option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label for="minAmount" class="form-label">Minimum Amount</label>
-                <input type="number" id="minAmount" class="form-control" step="0.01">
-              </div>
-              <div class="mb-3">
-                <label for="maxAmount" class="form-label">Maximum Amount</label>
-                <input type="number" id="maxAmount" class="form-control" step="0.01">
-              </div>
-              <div class="mb-3">
-                <label for="ruleDescription" class="form-label">Description</label>
-                <textarea id="ruleDescription" class="form-control" rows="3"></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary w-100 mb-2">Save Rule</button>
-              <button type="button" class="btn btn-secondary w-100" onclick="clearRuleForm()">Clear</button>
-            </form>
-          </div>
+    <!-- Toast Notification Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header"><strong class="me-auto">Notification</strong><button type="button" class="btn-close" data-bs-dismiss="toast"></button></div>
+            <div class="toast-body"></div>
         </div>
-      </div>
-      <div class="col-lg-8 col-md-7">
-        <div class="card shadow-sm">
-          <div class="card-header bg-secondary text-white">Approval Rules</div>
-          <div class="card-body table-responsive">
-            <table class="table table-hover table-bordered align-middle">
-              <thead class="table-light">
-                <tr>
-                  <th>Rule Name</th>
-                  <th>Type</th>
-                  <th>Amount Range</th>
-                  <th>Description</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="rulesTable">
-                <tr><td colspan="5" class="text-center">Loading...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <!-- All Expenses Section -->
-  <div id="expensesSection" class="section">
-    <div class="row g-3">
-      <div class="col-12">
-        <div class="card shadow-sm">
-          <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">All Company Expenses</h5>
-            <select id="statusFilter" class="form-select form-select-sm w-auto">
-              <option value="">All Status</option>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
-            </select>
-          </div>
-          <div class="card-body table-responsive">
-            <table class="table table-hover table-bordered align-middle">
-              <thead class="table-light">
-                <tr>
-                  <th>Employee</th>
-                  <th>Amount</th>
-                  <th>Category</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Approver</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="allExpensesTable">
-                <tr><td colspan="7" class="text-center">Loading...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<!-- Toast -->
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-  <div id="notification" class="toast align-items-center text-white bg-primary border-0" role="alert">
-    <div class="d-flex">
-      <div class="toast-body">Notification</div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-    </div>
-  </div>
-</div>
-
-<!-- Bootstrap & Supabase JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./auth.js"></script>
-<script>
-  const currentUser = getCurrentUser();
-
-  // Redirect if not logged in or wrong role
-  if (!currentUser || currentUser.role !== 'admin') {
-    window.location.href = 'index.html';
-  }
-
-  // Section toggle
-  function showSection(section) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.getElementById(section + 'Section').classList.add('active');
-    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-    document.querySelector(`.nav-link[onclick="showSection('${section}')"]`).classList.add('active');
-  }
-
-  // Toast notification
-  function showToast(message) {
-    const toastEl = document.getElementById('notification');
-    toastEl.querySelector('.toast-body').textContent = message;
-    const toast = new bootstrap.Toast(toastEl);
-    toast.show();
-  }
-
-  // Logout
-  function logout() {
-    signOut(); // from auth.js
-  }
-
-  // Placeholder functions for forms
-  function clearUserForm() { document.getElementById('userForm').reset(); }
-  function clearRuleForm() { document.getElementById('ruleForm').reset(); }
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./js/ui/common.js"></script>
+    <script src="./js/services/supabaseServices.js"></script>
+    <script src="./js/services/authServices.js"></script>
+    <script src="./js/ui/AdminUI.js"></script>
+    <script src="./js/app/admin.js"></script>
 </body>
 </html>
+
