@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-from app.routes import expenses, ocr  # We’ll create these next
+from .routes import expenses, ocr
 
 app = FastAPI(title="Expenses + Approvals + OCR API")
 
-# Include routers
+# Include routes
 app.include_router(expenses.router, prefix="/api/expenses")
 app.include_router(ocr.router, prefix="/api/ocr")
 
